@@ -13,10 +13,24 @@ public class JobController {
     @FXML
     private ListView<String> listViewJobs;
     public void initialize() {
-
+        comboBoxInitializer();
     }
     private void comboBoxInitializer(){
+        comboBoxLanguage.getItems().add("English");
+        comboBoxLanguage.getItems().add("Española");
+        comboBoxLanguage.getItems().add("Français");
+        comboBoxLanguage.getItems().add("中国人");
+        comboBoxLanguage.setValue("English");
+        comboBoxLanguage.setOnAction(event -> {
+            String selectedLanguage = comboBoxLanguage.getValue();
+        });
+    }
+    private void languageChange(String language){
+        switch(language){
+            case "English": {
 
+            }
+        }
     }
 
 }
