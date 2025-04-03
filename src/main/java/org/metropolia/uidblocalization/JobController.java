@@ -44,16 +44,19 @@ public class JobController {
             case "Española": {
                 Locale locale = new Locale("es","ES");
                 resourceBundleInitialization(locale);
+                loadJobTitles(2);
                 break;
             }
             case "Français": {
                 Locale locale = new Locale("fr","FR");
                 resourceBundleInitialization(locale);
+                loadJobTitles(3);
                 break;
             }
             case "中国人": {
                 Locale locale = new Locale("zh","CN");
                 resourceBundleInitialization(locale);
+                loadJobTitles(4);
                 break;
             }
         }

@@ -39,7 +39,7 @@ public class MariaDBJdbc {
                 "FROM job_title jt\n" +
                 "LEFT JOIN job_translation jt_trans \n" +
                 "    ON jt.id = jt_trans.job_id \n" +
-                "    AND jt_trans.language_id = \" + languageId + \"\n" +
+                "    AND jt_trans.language_id = " + languageId + "\n" +
                 "LEFT JOIN job_translation jt_default \n" +
                 "    ON jt.id = jt_default.job_id \n" +
                 "    AND jt_default.language_id = 1;\n";
