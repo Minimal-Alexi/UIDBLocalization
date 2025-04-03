@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+
 import io.github.cdimascio.dotenv.Dotenv;
 
 public class MariaDBJdbc {
@@ -19,10 +21,6 @@ public class MariaDBJdbc {
     }
     // example code
 /*    public static void main(String[] args) {
-        String url = "jdbc:mariadb://localhost:3306/mydatabase";
-        String user = "root";
-        String password = "password";
-
         try (Connection conn = DriverManager.getConnection(url, user, password);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM my_table")) {
@@ -34,5 +32,19 @@ public class MariaDBJdbc {
             e.printStackTrace();
         }
     }*/
+    public ArrayList<String> retrieveJobTitles(){
+        try(Connection connection = DriverManager.getConnection(url,user,password)){
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("select name from job_title");
+            ArrayList<String> jobTitles = new ArrayList<>();
+            while(resultSet.next()){
+                jobTitles.add(resultSet.getString("name"));
+            }
+            return jobTitles;
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }
