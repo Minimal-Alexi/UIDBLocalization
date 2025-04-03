@@ -16,7 +16,6 @@ public class MariaDBJdbc {
         url = "jdbc:mariadb://localhost:3306/job_localization";
         user = "root";
         password = dotenv.get("PASSWORD");
-        System.out.println(url + user + password);
     }
     // example code
 /*    public static void main(String[] args) {
