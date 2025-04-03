@@ -67,7 +67,8 @@ public class JobController {
     }
     private void loadJobTitles(int languageId){
         ArrayList<String> jobTitles = db.retrieveJobTitles(languageId);
-        System.out.println(jobTitles);
+        listViewJobs.getItems().clear();
+        listViewJobs.getItems().addAll(jobTitles);
     }
 
 }
