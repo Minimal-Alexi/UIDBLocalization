@@ -45,6 +45,7 @@ public class MariaDBJdbc {
             ArrayList<String> jobTitles = new ArrayList<>();
             while(resultSet.next()){
                 jobTitles.add(resultSet.getString("localized_job_title"));
+                System.out.println(jobTitles);
             }
             return jobTitles;
         }catch(SQLException e){
@@ -79,21 +80,22 @@ public class MariaDBJdbc {
                     throw new SQLException("Failed to retrieve job ID.");
                 }
             }
+            if(languageId != 1)
+            {
+                String insertTranslationQuery = "INSERT INTO job_translation (language_id, job_id, translation_text) VALUES (?, ?, ?) " +
+                        "ON DUPLICATE KEY UPDATE translation_text = VALUES(translation_text)";
+                PreparedStatement insertTranslationStmt = connection.prepareStatement(insertTranslationQuery);
+                insertTranslationStmt.setInt(1, languageId);
+                insertTranslationStmt.setInt(2, jobId);
+                insertTranslationStmt.setString(3, localizedJobTitle);
+                insertTranslationStmt.executeUpdate();
+            }
 
-            // Step 3: Insert the job translation
-            String insertTranslationQuery = "INSERT INTO job_translation (language_id, job_id, translation_text) VALUES (?, ?, ?) " +
-                    "ON DUPLICATE KEY UPDATE translation_text = VALUES(translation_text)";
-            PreparedStatement insertTranslationStmt = connection.prepareStatement(insertTranslationQuery);
-            insertTranslationStmt.setInt(1, languageId);
-            insertTranslationStmt.setInt(2, jobId);
-            insertTranslationStmt.setString(3, localizedJobTitle);
-            insertTranslationStmt.executeUpdate();
-
-            return true; // Successfully inserted or updated
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false; // Insertion failed
+        return false;
     }
 
 }
