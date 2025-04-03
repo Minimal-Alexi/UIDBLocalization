@@ -1,10 +1,6 @@
 package org.metropolia.uidblocalization;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 import io.github.cdimascio.dotenv.Dotenv;
@@ -55,6 +51,49 @@ public class MariaDBJdbc {
             e.printStackTrace();
         }
         return null;
+    }
+    public boolean createJobTitle(int languageId, String jobTitle, String localizedJobTitle) {
+        try (Connection connection = DriverManager.getConnection(url, user, password)) {
+            // Step 1: Check if the job title already exists
+            String checkJobTitleQuery = "SELECT id FROM job_title WHERE name = ?";
+            PreparedStatement checkJobStmt = connection.prepareStatement(checkJobTitleQuery);
+            checkJobStmt.setString(1, jobTitle);
+            ResultSet resultSet = checkJobStmt.executeQuery();
+
+            int jobId;
+            if (resultSet.next()) {
+                // Job title exists, retrieve its ID
+                jobId = resultSet.getInt("id");
+            } else {
+                // Step 2: Insert new job title since it doesn't exist
+                String insertJobTitleQuery = "INSERT INTO job_title (name) VALUES (?)";
+                PreparedStatement insertJobStmt = connection.prepareStatement(insertJobTitleQuery, Statement.RETURN_GENERATED_KEYS);
+                insertJobStmt.setString(1, jobTitle);
+                insertJobStmt.executeUpdate();
+
+                // Get the generated job ID
+                ResultSet generatedKeys = insertJobStmt.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    jobId = generatedKeys.getInt(1);
+                } else {
+                    throw new SQLException("Failed to retrieve job ID.");
+                }
+            }
+
+            // Step 3: Insert the job translation
+            String insertTranslationQuery = "INSERT INTO job_translation (language_id, job_id, translation_text) VALUES (?, ?, ?) " +
+                    "ON DUPLICATE KEY UPDATE translation_text = VALUES(translation_text)";
+            PreparedStatement insertTranslationStmt = connection.prepareStatement(insertTranslationQuery);
+            insertTranslationStmt.setInt(1, languageId);
+            insertTranslationStmt.setInt(2, jobId);
+            insertTranslationStmt.setString(3, localizedJobTitle);
+            insertTranslationStmt.executeUpdate();
+
+            return true; // Successfully inserted or updated
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // Insertion failed
     }
 
 }

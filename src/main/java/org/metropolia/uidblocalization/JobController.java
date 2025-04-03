@@ -8,6 +8,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class JobController {
+    int languageId;
     private MariaDBJdbc db;
     @FXML
     private Label labelTitle;
@@ -20,10 +21,12 @@ public class JobController {
     @FXML
     private Button addButton;
     public void initialize() {
+        languageId = 1;
         db = new MariaDBJdbc();
         comboBoxInitializer();
         resourceBundleInitialization(new Locale("en","US"));
-        loadJobTitles(1);
+        loadJobTitles();
+        createJobInit();
     }
     private void comboBoxInitializer(){
         comboBoxLanguage.getItems().add("English");
@@ -41,25 +44,29 @@ public class JobController {
             case "English": {
                 Locale locale = new Locale("en","US");
                 resourceBundleInitialization(locale);
-                loadJobTitles(1);
+                languageId = 1;
+                loadJobTitles();
                 break;
             }
             case "Española": {
                 Locale locale = new Locale("es","ES");
                 resourceBundleInitialization(locale);
-                loadJobTitles(2);
+                languageId = 2;
+                loadJobTitles();
                 break;
             }
             case "Français": {
                 Locale locale = new Locale("fr","FR");
                 resourceBundleInitialization(locale);
-                loadJobTitles(3);
+                languageId = 3;
+                loadJobTitles();
                 break;
             }
             case "中国人": {
                 Locale locale = new Locale("zh","CN");
                 resourceBundleInitialization(locale);
-                loadJobTitles(4);
+                languageId = 4;
+                loadJobTitles();
                 break;
             }
         }
@@ -71,10 +78,16 @@ public class JobController {
         textFieldTranslation.setPromptText(bundle.getString("promptTextFieldTranslation"));
         addButton.setText(bundle.getString("addButton"));
     }
-    private void loadJobTitles(int languageId){
+    private void loadJobTitles(){
         ArrayList<String> jobTitles = db.retrieveJobTitles(languageId);
         listViewJobs.getItems().clear();
         listViewJobs.getItems().addAll(jobTitles);
+    }
+    private void createJobInit(){
+        addButton.setOnAction(event -> {
+            db.createJobTitle(languageId, textFieldKeyItem.getText(), textFieldTranslation.getText());
+            db.retrieveJobTitles(languageId);
+        });
     }
 
 }
