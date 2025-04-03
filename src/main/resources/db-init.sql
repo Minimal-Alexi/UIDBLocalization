@@ -11,8 +11,8 @@ CREATE TABLE job_title(
                           name VARCHAR(100) NOT NULL
 );
 CREATE TABLE job_translation(
-                                language_id INT PRIMARY KEY,
-                                job_id INT PRIMARY KEY,
+                                language_id INT NOT NULL ,
+                                job_id INT NOT NULL ,
                                 translation_text VARCHAR(100) NOT NULL,
                                 UNIQUE KEY (language_id,job_id),
                                 FOREIGN KEY (job_id) REFERENCES job_title (id),
@@ -37,6 +37,6 @@ VALUES (4,1,'经理'),
        (4,2,'看门人'),
        (3,2,'Concierge'),
        (2,2,'Conserje'),
-       (4,1,'程序员'),
-       (3,1,'Programmeur'),
-       (2,1,'Programador');
+       (4,3,'程序员'),
+       (3,3,'Programmeur'),
+       (2,3,'Programador');
