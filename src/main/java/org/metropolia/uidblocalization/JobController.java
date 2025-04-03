@@ -1,10 +1,7 @@
 package org.metropolia.uidblocalization;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -20,6 +17,8 @@ public class JobController {
     private ListView<String> listViewJobs;
     @FXML
     private TextField textFieldKeyItem, textFieldTranslation;
+    @FXML
+    private Button addButton;
     public void initialize() {
         db = new MariaDBJdbc();
         comboBoxInitializer();
@@ -70,6 +69,7 @@ public class JobController {
         labelTitle.setText(bundle.getString("labelTitle"));
         textFieldKeyItem.setPromptText(bundle.getString("promptTextFieldKeyItem"));
         textFieldTranslation.setPromptText(bundle.getString("promptTextFieldTranslation"));
+        addButton.setText(bundle.getString("addButton"));
     }
     private void loadJobTitles(int languageId){
         ArrayList<String> jobTitles = db.retrieveJobTitles(languageId);
