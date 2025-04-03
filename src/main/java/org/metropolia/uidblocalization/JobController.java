@@ -5,6 +5,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 public class JobController {
     @FXML
     private Label labelTitle;
@@ -23,14 +26,36 @@ public class JobController {
         comboBoxLanguage.setValue("English");
         comboBoxLanguage.setOnAction(event -> {
             String selectedLanguage = comboBoxLanguage.getValue();
+            languageChange(selectedLanguage);
         });
     }
     private void languageChange(String language){
         switch(language){
             case "English": {
-
+                Locale locale = new Locale("en","US");
+                resourceBundleInitialization(locale);
+                break;
+            }
+            case "Española": {
+                Locale locale = new Locale("es","ES");
+                resourceBundleInitialization(locale);
+                break;
+            }
+            case "Français": {
+                Locale locale = new Locale("fr","FR");
+                resourceBundleInitialization(locale);
+                break;
+            }
+            case "中国人": {
+                Locale locale = new Locale("zh","CN");
+                resourceBundleInitialization(locale);
+                break;
             }
         }
+    }
+    private void resourceBundleInitialization(Locale locale){
+        ResourceBundle bundle = ResourceBundle.getBundle("messages", locale);
+        labelTitle.setText(bundle.getString("labelTitle"));
     }
 
 }
