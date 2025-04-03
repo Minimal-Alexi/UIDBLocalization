@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -17,9 +18,12 @@ public class JobController {
     private ComboBox<String> comboBoxLanguage;
     @FXML
     private ListView<String> listViewJobs;
+    @FXML
+    private TextField textFieldKeyItem, textFieldTranslation;
     public void initialize() {
         db = new MariaDBJdbc();
         comboBoxInitializer();
+        resourceBundleInitialization(new Locale("en","US"));
         loadJobTitles(1);
     }
     private void comboBoxInitializer(){
@@ -64,6 +68,8 @@ public class JobController {
     private void resourceBundleInitialization(Locale locale){
         ResourceBundle bundle = ResourceBundle.getBundle("messages", locale);
         labelTitle.setText(bundle.getString("labelTitle"));
+        textFieldKeyItem.setPromptText(bundle.getString("promptTextFieldKeyItem"));
+        textFieldTranslation.setPromptText(bundle.getString("promptTextFieldTranslation"));
     }
     private void loadJobTitles(int languageId){
         ArrayList<String> jobTitles = db.retrieveJobTitles(languageId);
