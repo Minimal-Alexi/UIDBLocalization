@@ -35,14 +35,14 @@ public class MariaDBJdbc {
     public ArrayList<String> retrieveJobTitles(int languageId){
         String query = "SELECT \n" +
                 "    jt.id AS job_id, \n" +
-                "    COALESCE(jt_trans.translation_text, jt_default.translation_text) AS localized_job_title\n" +
+                "    COALESCE(jt_trans.translation_text, jt_default.translation_text, jt.name) AS localized_job_title\n" +
                 "FROM job_title jt\n" +
                 "LEFT JOIN job_translation jt_trans \n" +
                 "    ON jt.id = jt_trans.job_id \n" +
-                "    AND jt_trans.language_id = "+ languageId + "\n" +
+                "    AND jt_trans.language_id = \" + languageId + \"\n" +
                 "LEFT JOIN job_translation jt_default \n" +
                 "    ON jt.id = jt_default.job_id \n" +
-                "    AND jt_default.language_id = 1;";
+                "    AND jt_default.language_id = 1;\n";
         try(Connection connection = DriverManager.getConnection(url,user,password)){
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
