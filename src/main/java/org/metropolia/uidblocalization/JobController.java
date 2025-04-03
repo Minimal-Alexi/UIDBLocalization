@@ -9,6 +9,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class JobController {
+    private MariaDBJdbc db;
     @FXML
     private Label labelTitle;
     @FXML
@@ -16,6 +17,7 @@ public class JobController {
     @FXML
     private ListView<String> listViewJobs;
     public void initialize() {
+        db = new MariaDBJdbc();
         comboBoxInitializer();
     }
     private void comboBoxInitializer(){
