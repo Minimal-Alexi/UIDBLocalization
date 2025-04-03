@@ -7,12 +7,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="521.0" prefWidth="600.0" spacing="10.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.metropolia.uidblocalization.JobController">
    <children>
-      <Label fx:id="labelTitle" alignment="CENTER" prefHeight="88.0" prefWidth="342.0" text="Employee Job Titles" textAlignment="CENTER">
+      <Label fx:id="labelTitle" alignment="CENTER" prefHeight="88.0" prefWidth="572.0" text="Employee Job Titles" textAlignment="CENTER">
          <font>
-            <Font name="Calibri Bold" size="36.0" />
+            <Font name="Calibri Bold" size="24.0" />
          </font>
       </Label>
       <ComboBox fx:id="comboBoxLanguage" prefWidth="150.0" />
