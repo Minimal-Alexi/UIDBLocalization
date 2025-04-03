@@ -63,7 +63,7 @@ public class JobController {
         labelTitle.setText(bundle.getString("labelTitle"));
     }
     private void loadJobTitles(int languageId){
-        ArrayList<String> jobTitles = db.retrieveJobTitles();
+        ArrayList<String> jobTitles = db.retrieveJobTitles(languageId);
         System.out.println(jobTitles);
     }
 
